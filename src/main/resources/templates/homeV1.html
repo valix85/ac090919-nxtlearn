@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagina di Template</title>
+</head>
+<body>
+    <h1>Pagina dinamica v1</h1>
+    <div>
+        <p>Data e ora: <span th:text="${dataora}">testo da cambiare</span></p>
+    </div>
+
+    <div>
+        <p>dtobj: <span th:text="${dtobj}">.....</span></p>
+        <p>dtobj: <span th:text="${dtobj.year}">.....</span></p>
+        <p>dtobj: <span th:text="${dtobj.getYear()}">.....</span></p>
+    </div>
+
+    <div>
+        <ul>
+            <li th:each="item,idx : ${estratti}">
+                <span th:text="${idx.count}"></span>° numero estratto:
+                <span th:text="${item}" th:class="${item%2==0 ? 'pari':'dispari'}"></span>
+            </li>
+        </ul>
+    </div>
+
+</body>
+</html>

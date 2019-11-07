@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persona</title>
+</head>
+<body>
+<div class="card" th:fragment="personaCard(persona)">
+    <style>
+        .card {padding:15px; border: #333 solid 2px; background: #CCC; margin-bottom:5px;}
+    </style>
+
+    <div th:text="${persona.id}"></div>
+    <div th:text="${persona.nome}"></div>
+    <div th:text="${persona.cognome}"></div>
+</div>
+</body>
+</html>

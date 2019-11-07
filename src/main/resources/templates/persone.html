@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persone</title>
+</head>
+<body>
+
+<div th:each="item : ${persone}">
+    <div th:replace="persona.html :: personaCard(persona=${item})"></div>
+</div>
+
+</body>
+</html>
