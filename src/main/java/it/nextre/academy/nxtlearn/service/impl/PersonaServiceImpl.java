@@ -3,6 +3,7 @@ package it.nextre.academy.nxtlearn.service.impl;
 import it.nextre.academy.nxtlearn.model.Persona;
 import it.nextre.academy.nxtlearn.myutils.DummyData;
 import it.nextre.academy.nxtlearn.repository.PersonaRepository;
+import it.nextre.academy.nxtlearn.repository.PersonaRepositoryDB;
 import it.nextre.academy.nxtlearn.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

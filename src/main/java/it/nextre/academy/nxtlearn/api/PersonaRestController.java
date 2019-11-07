@@ -8,13 +8,18 @@ import it.nextre.academy.nxtlearn.service.PersonaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/persona")
@@ -44,8 +49,17 @@ public class PersonaRestController {
     }
 
     @PostMapping
-    public Persona addOne(@RequestBody Persona p){
+    public Persona addOne(@RequestBody @Valid Persona p, BindingResult validator){
         logger.debug("POST Persona.addOne()");
+
+        if (validator.hasErrors()){
+            String errs = validator.getAllErrors()
+                    .stream()
+                    .map(e->e.getDefaultMessage())
+                    .collect(Collectors.joining( ", " ));
+            throw new BadRequestException(errs);
+        }
+
         if (p!=null){
             p=personaService.newPersona(p);
             if (p==null){
