@@ -1,5 +1,7 @@
 package it.nextre.academy.nxtlearn.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -30,9 +33,23 @@ public class Persona implements Cloneable{
     @Column(nullable = false, length = 128) // length ignorato se usato @size
     private String cognome;
 
+    //chi mi ha mangiato
+    @ManyToMany
+    @JoinTable(name = "rel_persona_guida",
+            joinColumns = @JoinColumn(
+                    //nome colonna DB
+                    name = "persona_id"
+            ),
+            //nome proprieta'
+            inverseJoinColumns = @JoinColumn(
+                    name = "guida_id"
+            )
+    )
+    private List<Guida> guide;
+
     @Override
     public Persona clone() {
-        return new Persona(this.id, this.nome, this.cognome);
+        return new Persona(this.id, this.nome, this.cognome, this.guide);
     }
 
     /*

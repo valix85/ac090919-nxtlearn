@@ -14,12 +14,12 @@ public class PersonaRepositoryMock {
     private List<Persona> db = new ArrayList<>();
 
     {
-        db.add(new Persona(1,"Mario","Red"));
-        db.add(new Persona(2,"Michele","Bossi"));
-        db.add(new Persona(3,"Michela","Manelli"));
-        db.add(new Persona(4,"Gino","Brunetta"));
-        db.add(new Persona(5,"Maria","Vongola"));
-        db.add(new Persona(6,"Gina","Branzino"));
+        db.add(new Persona(1,"Mario","Red",new ArrayList()));
+        db.add(new Persona(2,"Michele","Bossi",new ArrayList()));
+        db.add(new Persona(3,"Michela","Manelli",new ArrayList()));
+        db.add(new Persona(4,"Gino","Brunetta",new ArrayList()));
+        db.add(new Persona(5,"Maria","Vongola",new ArrayList()));
+        db.add(new Persona(6,"Gina","Branzino",new ArrayList()));
     }
 
     public Persona save(Persona persona){
