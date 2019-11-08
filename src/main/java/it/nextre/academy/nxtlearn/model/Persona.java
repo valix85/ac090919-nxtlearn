@@ -17,17 +17,17 @@ import javax.validation.constraints.Size;
 public class Persona implements Cloneable{
     @Min(value=1, message = "ID non valido")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotBlank(message = "Nome non valido")
-    @Size(min=2, message = "Almeno 2 caratteri per il nome")
+    @Size(min=2, max=128, message = "Nome compreso tra 2 e 128 caratteri")
     @Column(nullable = false)
     private String nome;
 
-    @Size(min = 1,max=16,message = "Cognome compreso tra 1 e 16 lettere")
+    @Size(min = 1,max=128,message = "Cognome compreso tra 1 e 128 caratteri")
     @NotBlank(message = "Cognome non valido")
-    @Column(nullable = false)
+    @Column(nullable = false, length = 128) // length ignorato se usato @size
     private String cognome;
 
     @Override

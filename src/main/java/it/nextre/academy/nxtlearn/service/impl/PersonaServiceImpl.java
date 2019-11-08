@@ -3,7 +3,6 @@ package it.nextre.academy.nxtlearn.service.impl;
 import it.nextre.academy.nxtlearn.model.Persona;
 import it.nextre.academy.nxtlearn.myutils.DummyData;
 import it.nextre.academy.nxtlearn.repository.PersonaRepository;
-import it.nextre.academy.nxtlearn.repository.PersonaRepositoryDB;
 import it.nextre.academy.nxtlearn.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,13 +36,13 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public List<Persona> getPersone() {
-        return personaRepository.getAll();
+        return personaRepository.findAll();
     }
 
     @Override
     public Persona getPersona(Integer id) {
         if (id!=null && id>0){
-            return personaRepository.findById(id);
+            return personaRepository.findById(id).orElse(null);
         }
         return null;
     }
@@ -59,7 +58,13 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public boolean deletePersonaById(Integer id) {
         if (id != null && id >=0){
-            return personaRepository.deleteById(id);
+            try {
+                personaRepository.deleteById(id);
+                return true;
+            }catch (RuntimeException e){
+                //simulo il return false dal mock
+                return false;
+            }
         }
         return false;
     }

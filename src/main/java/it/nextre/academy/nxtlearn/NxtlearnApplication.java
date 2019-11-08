@@ -11,3 +11,5 @@ public class NxtlearnApplication {
 	}
 
 }
+
+// todo prevedere il caricamento dei dati di prova se il repository è vuoto
