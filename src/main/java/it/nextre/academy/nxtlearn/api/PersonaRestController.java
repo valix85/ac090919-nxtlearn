@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.api;
 
+import it.nextre.academy.nxtlearn.dto.PersonaDto;
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.NotFoundException;
 import it.nextre.academy.nxtlearn.exception.PersonaNotFoundException;
@@ -39,12 +40,12 @@ public class PersonaRestController {
     }
 
     @GetMapping("/{id}")
-    public Persona getOne(@PathVariable("id") Integer id){
+    public PersonaDto getOne(@PathVariable("id") Integer id){
         logger.debug("GET Persona.getOne() with id: "+id);
         Persona tmp = personaService.getPersona(id);
-        if (tmp!=null)
-            return tmp;
-        else
+        if (tmp!=null) {
+            return personaService.toDto(tmp);
+        } else
             throw new PersonaNotFoundException();
     }
 

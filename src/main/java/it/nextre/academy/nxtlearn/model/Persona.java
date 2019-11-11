@@ -66,7 +66,6 @@ public class Persona implements Cloneable{
 
     @OneToMany(mappedBy = "persona")
     @JsonManagedReference
-    //@JsonBackReference
     private List<PersonaGuida> guide;
 
 

@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
+import it.nextre.academy.nxtlearn.dto.PersonaDto;
 import it.nextre.academy.nxtlearn.model.Persona;
 import it.nextre.academy.nxtlearn.myutils.DummyData;
 import it.nextre.academy.nxtlearn.repository.PersonaRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -75,5 +77,23 @@ public class PersonaServiceImpl implements PersonaService {
             return personaRepository.save(p);
         }
         return null;
+    }
+
+    @Override
+    public PersonaDto toDto(Persona tmp) {
+        PersonaDto dto = new PersonaDto();
+        dto.setId(tmp.getId());
+        dto.setNome(tmp.getNome());
+        dto.setCognome(tmp.getCognome());
+        tmp.getGuide().forEach(el->{
+            HashMap guida = new HashMap();
+            guida.put("id", el.getGuida().getId());
+            guida.put("nome", el.getGuida().getNome());
+            guida.put("url", el.getGuida().getUrl());
+            guida.put("imagePath", el.getGuida().getImagePath());
+            guida.put("descrizione", el.getGuida().getDescrizione());
+            dto.getGuide().add(guida);
+        });
+        return dto;
     }
 }//end class

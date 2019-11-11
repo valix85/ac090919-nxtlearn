@@ -57,7 +57,6 @@ public class Guida extends BaseEntity{
 
     @OneToMany(mappedBy = "guida")
     @JsonManagedReference
-    //@JsonBackReference
     private List<PersonaGuida> persone;
 
 
