@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @Repository
 public class PersonaRepositoryMock {
     private List<Persona> db = new ArrayList<>();
-
+/*
     {
         db.add(new Persona(1,"Mario","Red",new HashSet()));
         db.add(new Persona(2,"Michele","Bossi",new HashSet()));
@@ -18,7 +18,7 @@ public class PersonaRepositoryMock {
         db.add(new Persona(5,"Maria","Vongola",new HashSet()));
         db.add(new Persona(6,"Gina","Branzino",new HashSet()));
     }
-
+*/
     public Persona save(Persona persona){
         if (persona.getId()!=null && persona.getId()>0){
             if (db.stream()

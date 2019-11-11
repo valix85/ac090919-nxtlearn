@@ -1,6 +1,9 @@
 package it.nextre.academy.nxtlearn.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +14,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "guida")
 @Data
 @NoArgsConstructor @AllArgsConstructor
+@JsonIdentityInfo(
+        generator= ObjectIdGenerators.PropertyGenerator.class,
+        property="id")
 public class Guida extends BaseEntity{
 
 
@@ -40,9 +48,17 @@ public class Guida extends BaseEntity{
     @ManyToOne
     private Livello livello;
 
+    /*
+    //SCELTO DI FARE UNA TABELLA CON CAMPI EXTRA
     @JsonBackReference
     @ManyToMany(mappedBy = "guide")
     private List<Persona> persone;
+    */
+
+    @OneToMany(mappedBy = "guida")
+    @JsonManagedReference
+    //@JsonBackReference
+    private List<PersonaGuida> persone;
 
 
 }//end class

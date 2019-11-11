@@ -1,7 +1,9 @@
 package it.nextre.academy.nxtlearn.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +21,10 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name="persona")
+
+@JsonIdentityInfo(
+        generator=ObjectIdGenerators.PropertyGenerator.class,
+        property="id")
 public class Persona implements Cloneable{
     @Min(value=1, message = "ID non valido")
     @Id
@@ -34,6 +41,10 @@ public class Persona implements Cloneable{
     @Column(nullable = false, length = 128) // length ignorato se usato @size
     private String cognome;
 
+
+
+    /*
+    //SCELTO DI FARE UNA TABELLA CON CAMPI EXTRA
     //che guide la persona sta seguendo:
     // https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
     @ManyToMany
@@ -50,6 +61,14 @@ public class Persona implements Cloneable{
             uniqueConstraints = {@UniqueConstraint(name="unique_persona_guida", columnNames = {"persona_id","guida_id"})}
     )
     private Set<Guida> guide;
+     */
+
+
+    @OneToMany(mappedBy = "persona")
+    @JsonManagedReference
+    //@JsonBackReference
+    private List<PersonaGuida> guide;
+
 
     @Override
     public Persona clone() {
