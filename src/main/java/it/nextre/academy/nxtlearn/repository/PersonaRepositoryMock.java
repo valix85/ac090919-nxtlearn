@@ -3,10 +3,7 @@ package it.nextre.academy.nxtlearn.repository;
 import it.nextre.academy.nxtlearn.model.Persona;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -14,12 +11,12 @@ public class PersonaRepositoryMock {
     private List<Persona> db = new ArrayList<>();
 
     {
-        db.add(new Persona(1,"Mario","Red",new ArrayList()));
-        db.add(new Persona(2,"Michele","Bossi",new ArrayList()));
-        db.add(new Persona(3,"Michela","Manelli",new ArrayList()));
-        db.add(new Persona(4,"Gino","Brunetta",new ArrayList()));
-        db.add(new Persona(5,"Maria","Vongola",new ArrayList()));
-        db.add(new Persona(6,"Gina","Branzino",new ArrayList()));
+        db.add(new Persona(1,"Mario","Red",new HashSet()));
+        db.add(new Persona(2,"Michele","Bossi",new HashSet()));
+        db.add(new Persona(3,"Michela","Manelli",new HashSet()));
+        db.add(new Persona(4,"Gino","Brunetta",new HashSet()));
+        db.add(new Persona(5,"Maria","Vongola",new HashSet()));
+        db.add(new Persona(6,"Gina","Branzino",new HashSet()));
     }
 
     public Persona save(Persona persona){

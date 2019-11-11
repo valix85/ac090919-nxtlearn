@@ -25,3 +25,5 @@ insert into rel_persona_guida (persona_id,guida_id) values
 (4,3),
 (3,1),
 (3,2);
+
+insert into rel_persona_guida (persona_id,guida_id) values (1,3);

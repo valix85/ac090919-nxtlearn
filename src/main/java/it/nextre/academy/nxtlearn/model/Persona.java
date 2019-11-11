@@ -12,6 +12,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -33,7 +34,8 @@ public class Persona implements Cloneable{
     @Column(nullable = false, length = 128) // length ignorato se usato @size
     private String cognome;
 
-    //chi mi ha mangiato
+    //che guide la persona sta seguendo:
+    // https://vladmihalcea.com/the-best-way-to-map-a-many-to-many-association-with-extra-columns-when-using-jpa-and-hibernate/
     @ManyToMany
     @JoinTable(name = "rel_persona_guida",
             joinColumns = @JoinColumn(
@@ -43,9 +45,11 @@ public class Persona implements Cloneable{
             //nome proprieta'
             inverseJoinColumns = @JoinColumn(
                     name = "guida_id"
-            )
+            ),
+            // https://stackoverflow.com/questions/3473978/manytomany-relationship-using-jpa-with-hibernate-provider-is-not-creating-primar
+            uniqueConstraints = {@UniqueConstraint(name="unique_persona_guida", columnNames = {"persona_id","guida_id"})}
     )
-    private List<Guida> guide;
+    private Set<Guida> guide;
 
     @Override
     public Persona clone() {

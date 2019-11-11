@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
+import it.nextre.academy.nxtlearn.exception.LivelloNotFoundException;
 import it.nextre.academy.nxtlearn.model.Livello;
 import it.nextre.academy.nxtlearn.repository.LivelloRepository;
 import it.nextre.academy.nxtlearn.service.LivelloService;
@@ -11,11 +12,14 @@ import java.util.Optional;
 
 @Service
 public class LivelloServiceImpl implements LivelloService {
+
+    // i repository restituiscono Optional<T> ma i servizi devono lavorare con T
     @Autowired
     LivelloRepository livelloRepository;
+
     @Override
-    public Optional<Livello> findById(Integer id) {
-        Optional<Livello> l = Optional.of(livelloRepository.findById(id).orElse(null));
+    public Livello findById(Integer id) {
+        Livello l = livelloRepository.findById(id).orElseThrow(()->new LivelloNotFoundException());
         return l;
     }
     @Override

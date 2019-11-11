@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LivelloService {
-
-    Optional<Livello> findById(Integer id);
+    // i repository restituiscono Optional<T> ma i servizi devono lavorare con T
+    Livello findById(Integer id);
 
     List<Livello> getAll();
 }
