@@ -23,6 +23,7 @@ public class Utenza {
     @JoinColumn(name = "id", referencedColumnName = "id")   //same name as id @Column
     private Persona persona;
 
+    @Column(unique = true)
     private String email;
     private String password;
 
