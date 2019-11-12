@@ -95,15 +95,17 @@ public class PersonaServiceImpl implements PersonaService {
         dto.setId(tmp.getId());
         dto.setNome(tmp.getNome());
         dto.setCognome(tmp.getCognome());
-        tmp.getGuide().forEach(el->{
-            HashMap guida = new HashMap();
-            guida.put("id", el.getGuida().getId());
-            guida.put("nome", el.getGuida().getNome());
-            guida.put("url", el.getGuida().getUrl());
-            guida.put("imagePath", el.getGuida().getImagePath());
-            guida.put("descrizione", el.getGuida().getDescrizione());
-            dto.getGuide().add(guida);
-        });
+        if (tmp.getGuide()!=null) {
+            tmp.getGuide().forEach(el -> {
+                HashMap guida = new HashMap();
+                guida.put("id", el.getGuida().getId());
+                guida.put("nome", el.getGuida().getNome());
+                guida.put("url", el.getGuida().getUrl());
+                guida.put("imagePath", el.getGuida().getImagePath());
+                guida.put("descrizione", el.getGuida().getDescrizione());
+                dto.getGuide().add(guida);
+            });
+        }
         return dto;
     }
 }//end class

@@ -1,7 +1,10 @@
 package it.nextre.academy.nxtlearn.config;
 
+import it.nextre.academy.nxtlearn.service.impl.CustomUserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 */
 
     /* utenti di prova*/
+    /*
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         //collegare MySQL per rendere gli utenti del db
@@ -66,6 +70,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("user").password(passwordEncoder().encode("user")).roles("USER");
     }
+     */
+
+    @Autowired
+    CustomUserDetailsServiceImpl customUserDetailsService;
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setPasswordEncoder(passwordEncoder());
+        auth.setUserDetailsService(customUserDetailsService);
+        return auth;
+    }
+
+    //comunico a spring Security di usare il MIO provider che usa il MIO service
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+
+
+
+
 
 
     // https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/
@@ -76,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/", "/api/guida/**").permitAll()
+                .antMatchers("/", "/api/guida/**","/api/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

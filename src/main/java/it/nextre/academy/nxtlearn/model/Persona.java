@@ -69,9 +69,14 @@ public class Persona implements Cloneable{
     private List<PersonaGuida> guide;
 
 
+    @OneToOne(mappedBy = "persona")
+    //@PrimaryKeyJoinColumn
+    private Utenza utenza;
+
+
     @Override
     public Persona clone() {
-        return new Persona(this.id, this.nome, this.cognome, this.guide);
+        return new Persona(this.id, this.nome, this.cognome, this.guide, this.utenza);
     }
 
     /*
