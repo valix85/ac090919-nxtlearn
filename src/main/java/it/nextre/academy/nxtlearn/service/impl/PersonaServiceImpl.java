@@ -1,10 +1,16 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
 import it.nextre.academy.nxtlearn.dto.PersonaDto;
+import it.nextre.academy.nxtlearn.model.Guida;
 import it.nextre.academy.nxtlearn.model.Persona;
+import it.nextre.academy.nxtlearn.model.PersonaGuida;
 import it.nextre.academy.nxtlearn.myutils.DummyData;
 import it.nextre.academy.nxtlearn.repository.PersonaRepository;
 import it.nextre.academy.nxtlearn.service.PersonaService;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,8 +85,12 @@ public class PersonaServiceImpl implements PersonaService {
         return null;
     }
 
+//    @Autowired
+//    ModelMapper modelMapper;
+
     @Override
     public PersonaDto toDto(Persona tmp) {
+        //versione 1 : il service è responsabile del popolamento del DTO
         PersonaDto dto = new PersonaDto();
         dto.setId(tmp.getId());
         dto.setNome(tmp.getNome());

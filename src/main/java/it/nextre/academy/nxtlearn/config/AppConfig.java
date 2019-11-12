@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.config;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,4 +17,9 @@ public class AppConfig {
         return LoggerFactory.getLogger(this.getClass());
     }
 
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }//end class

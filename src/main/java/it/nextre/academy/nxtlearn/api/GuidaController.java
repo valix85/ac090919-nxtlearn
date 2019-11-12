@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.api;
 
+import it.nextre.academy.nxtlearn.dto.GuidaDto;
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.GuidaNotFoundException;
 import it.nextre.academy.nxtlearn.model.Guida;
@@ -25,11 +26,11 @@ public class GuidaController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("/{id}")
-    public Guida getByID(@PathVariable("id") Integer id) {
+    public GuidaDto getByID(@PathVariable("id") Integer id) {
         logger.info("LOG: getById, id=" + id);
         Guida tmp = guidaService.findById(id);
         if (tmp != null) {
-            return tmp;
+            return guidaService.toDto(tmp);
         } else {
             throw new GuidaNotFoundException();
         }

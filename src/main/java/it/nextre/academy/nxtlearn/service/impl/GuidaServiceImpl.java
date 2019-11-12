@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
+import it.nextre.academy.nxtlearn.dto.GuidaDto;
 import it.nextre.academy.nxtlearn.model.Guida;
 
 import it.nextre.academy.nxtlearn.repository.GuidaRepository;
@@ -58,5 +59,9 @@ public class GuidaServiceImpl implements GuidaService {
         return false;
     }
 
-
+    @Override
+    public GuidaDto toDto(Guida guida) {
+        //versione 2 : il DTO stesso è responsabile del suo popolamento
+        return new GuidaDto(guida);
+    }
 }//end class
