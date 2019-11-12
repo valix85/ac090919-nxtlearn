@@ -55,7 +55,8 @@ public class Guida extends BaseEntity{
     private List<Persona> persone;
     */
 
-    @OneToMany(mappedBy = "guida")
+    // https://www.baeldung.com/jpa-cascade-types
+    @OneToMany(mappedBy = "guida", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<PersonaGuida> persone;
 

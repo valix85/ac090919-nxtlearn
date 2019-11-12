@@ -13,5 +13,7 @@ Il progetto vuole essere un contenitore di codice di esempio per tener traccia d
 - Import automatico dei dati
 - Thymeleaf
 - Spring profile e altre proprietà
+- Spring Security per rotte e per metodi
+- Servlet context
 
 ... to be continue.

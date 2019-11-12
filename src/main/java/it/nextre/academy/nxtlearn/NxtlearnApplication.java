@@ -3,6 +3,8 @@ package it.nextre.academy.nxtlearn;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+// https://www.javacodegeeks.com/2019/09/springbootconfiguration-annotation-spring-boot.html
 @SpringBootApplication
 public class NxtlearnApplication {
 
