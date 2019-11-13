@@ -2,7 +2,7 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>LOGIN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
@@ -12,32 +12,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col"><h1>REGISTRAZIONE</h1></div>
+        <div class="col"><h1 class="text-center">LOGIN</h1></div>
     </div>
     <div class="row">
         <div class="col">
-            <div class="registration">
-                <form method="post" th:action="@{/api/register}" id="registrationForm">
-                    <p>Inserisci nome:</p>
+                <form method="post" th:action="@{/login}" id="loginForm">
+                    <p>Email:</p>
                     <div class="form-group">
-                        <input type="text" name="nome" placeholder="nome" class="form-control">
+                        <input type="email" name="utente" placeholder="utente"  class="form-control">
                     </div>
-                    <p>Inserisci cognome:</p>
+                    <p>Password:</p>
                     <div class="form-group">
-                        <input type="text" name="cognome" placeholder="cognome"  class="form-control">
-                    </div>
-                    <p>Inserisci mail:</p>
-                    <div class="form-group">
-                        <input type="email" name="email" placeholder="email"  class="form-control">
-                    </div>
-                    <p>Inserisci password:</p>
-                    <div class="form-group">
-                        <input type="password" name="password" placeholder="password"  class="form-control">
+                        <input type="password" name="pwd" placeholder="password"  class="form-control">
                     </div>
                     <br>
-                    <button type="button" id="submitRegistrationForm" class="btn btn-success">REGISTRATI</button>
+                    <button type="submit" class="btn btn-warning">ACCEDI</button>
                 </form>
-            </div>
+
         </div>
     </div>
 </div>
@@ -67,7 +58,7 @@
     }
 
     function elaboraForm(){
-        const form = document.getElementById('registrationForm');
+        const form = document.getElementById('loginForm');
         const fd = new FormData(form);
         let data = getJsonFromFormData(fd);
         console.log(data);
@@ -95,8 +86,7 @@
             });
         //console.log("dopo-chiamata-ma-in-contemporanea")
     }
-    document.getElementById('submitRegistrationForm')
-        .addEventListener('click',elaboraForm);
+    //document.getElementById('submitRegistrationForm').addEventListener('click',elaboraForm);
 
 </script>
 

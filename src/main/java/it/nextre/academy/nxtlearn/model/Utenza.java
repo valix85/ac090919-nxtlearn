@@ -30,7 +30,7 @@ public class Utenza {
     private String password;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name="rel_utenza_ruolo",
             joinColumns = @JoinColumn(name = "utenza_id", referencedColumnName = "id"),

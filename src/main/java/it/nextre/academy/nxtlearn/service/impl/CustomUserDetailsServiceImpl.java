@@ -28,6 +28,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         log.debug("Calling loadUserByUsername method with username: " + username);
 
         Utenza tmp = utenzaRepository.findByEmail(username);
+        log.debug("trovato utente: "+tmp);
         //System.out.println("####"+tmp);
         //System.out.println("####"+new CustomUserDetails(tmp));
 

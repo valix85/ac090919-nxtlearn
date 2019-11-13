@@ -26,4 +26,9 @@ public class GenericController {
         return "homeV1.html";
     }
 
+    @GetMapping("/login")
+    public String doLoginPage(){
+        return "login.html";
+    }
+
 }//end class
