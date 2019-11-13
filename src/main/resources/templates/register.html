@@ -8,10 +8,10 @@
 <body>
 <div class="registration">
     <form method="post" th:action="@{/api/register}">
-        <p>Inserisci nome:</p><input type="text" value="name">
-        <p>Inserisci cognome:</p><input type="text" value="surname">
-        <p>Inserisci mail:</p><input type="email" value="mail">
-        <p>Inserisci password:</p><input type="password" value="password">
+        <p>Inserisci nome:</p><input type="text" name="nome" placeholder="nome">
+        <p>Inserisci cognome:</p><input type="text" name="cognome" placeholder="cognome">
+        <p>Inserisci mail:</p><input type="email" name="email" placeholder="email">
+        <p>Inserisci password:</p><input type="password" name="password" placeholder="password">
         <br>
         <button type="submit">REGISTRATI</button>
     </form>

@@ -15,5 +15,7 @@ Il progetto vuole essere un contenitore di codice di esempio per tener traccia d
 - Spring profile e altre proprietà
 - Spring Security per rotte e per metodi
 - Servlet context
+- Aggiunto il login reale col database
+- Aggiunto il mapping delle risorse statiche e creato la pagina di registrazione e login 
 
 ... to be continue.
