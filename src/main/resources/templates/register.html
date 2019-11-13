@@ -43,12 +43,19 @@
             //body: JSON.stringify(data)
             body: JSON.stringify(Object.fromEntries(fd)) // da aprile 2019!
         })
-            .then(risp => risp.json())
+            .then(risp => {
+                if(risp.ok)
+                    return risp.json()
+                else throw new Error('Errore di registrazione');
+            })
             .then(r=>{
                 console.log(r);
                 alert(`congratulazioni per esserti iscritto, hai l'id: ${r.id}`)
             })
-            .catch(err=>console.error(err));
+            .catch(err=>{
+                console.error(err);
+                alert(err);
+            });
         //console.log("dopo-chiamata-ma-in-contemporanea")
     }
     document.getElementById('submitRegistrationForm')
