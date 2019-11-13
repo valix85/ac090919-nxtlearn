@@ -7,14 +7,54 @@
 </head>
 <body>
 <div class="registration">
-    <form method="post" th:action="@{/api/register}">
+    <form method="post" th:action="@{/api/register}" id="registrationForm">
         <p>Inserisci nome:</p><input type="text" name="nome" placeholder="nome">
         <p>Inserisci cognome:</p><input type="text" name="cognome" placeholder="cognome">
         <p>Inserisci mail:</p><input type="email" name="email" placeholder="email">
         <p>Inserisci password:</p><input type="password" name="password" placeholder="password">
         <br>
-        <button type="submit">REGISTRATI</button>
+        <button type="button" id="submitRegistrationForm">REGISTRATI</button>
     </form>
 </div>
+
+
+<script>
+
+
+    function getJsonFromFormData(fd){
+        let obj = {};
+        for (let el of fd.entries()){
+            obj[el[0]]=el[1];
+        }
+        return obj;
+    }
+
+    function elaboraForm(){
+        const form = document.getElementById('registrationForm');
+        const fd = new FormData(form);
+        let data = getJsonFromFormData(fd);
+        console.log(data);
+        fetch(form.getAttribute('action'),{
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            //body: JSON.stringify(data)
+            body: JSON.stringify(Object.fromEntries(fd)) // da aprile 2019!
+        })
+            .then(risp => risp.json())
+            .then(r=>{
+                console.log(r);
+                alert(`congratulazioni per esserti iscritto, hai l'id: ${r.id}`)
+            })
+            .catch(err=>console.error(err));
+        //console.log("dopo-chiamata-ma-in-contemporanea")
+    }
+    document.getElementById('submitRegistrationForm')
+        .addEventListener('click',elaboraForm);
+
+</script>
+
 </body>
 </html>
