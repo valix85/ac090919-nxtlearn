@@ -72,6 +72,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
      */
 
+
+
+    //ignorare la security per path/estensione file
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                //.antMatchers("/css/**")
+                //.antMatchers("/js/**")
+                //.antMatchers("/images/**")
+                //.antMatchers("/fonts/**")
+                .antMatchers("/assets/**");
+        //web.ignoring().antMatchers("/*.js");
+        //web.ignoring().antMatchers("/assets/**").antMatchers("/static/**");
+    }
+
+
+
     @Autowired
     CustomUserDetailsServiceImpl customUserDetailsService;
 
@@ -103,7 +120,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/", "/api/guida/**","/api/register").permitAll()
+                .antMatchers("/", "/api/guida/**","/api/register","/register").permitAll()
+                //.antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -134,11 +152,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    //ignorare la security per path/estensione file
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/*.css");
-        web.ignoring().antMatchers("/*.js");
-    }
+
 
 }//end class

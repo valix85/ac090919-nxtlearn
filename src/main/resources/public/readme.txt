@@ -1,0 +1,1 @@
+non usare questa cartella ma inserire tutte le risorse statiche in webapp/static/ verranno mappate a partire da /assets/

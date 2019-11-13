@@ -40,4 +40,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
      */
+
+
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/register").setViewName("register.html");
+    }
+
+
+    //la configurazione di defult di springboot con thymeleaf fa si di creare le rotte automatiche per tutti i file presenti all'interno di resources/public/
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/assets/**").addResourceLocations("/static/")
+        .setCachePeriod(0) //scade in tempo zero, cache disattivata
+        .resourceChain(false)
+        ;
+    }
+
 }//end class

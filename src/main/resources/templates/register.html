@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+</head>
+<body>
+<div class="registration">
+    <form method="post" th:action="@{/api/register}">
+        <p>Inserisci nome:</p><input type="text" value="name">
+        <p>Inserisci cognome:</p><input type="text" value="surname">
+        <p>Inserisci mail:</p><input type="email" value="mail">
+        <p>Inserisci password:</p><input type="password" value="password">
+        <br>
+        <button type="submit">REGISTRATI</button>
+    </form>
+</div>
+</body>
+</html>
