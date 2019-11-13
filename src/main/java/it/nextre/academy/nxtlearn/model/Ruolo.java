@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,7 +18,8 @@ import javax.validation.constraints.NotNull;
 public class Ruolo extends BaseEntity {
 
     @NotNull
-    @Column(name="nome", unique = true)
+    @Column(name="nome",unique = true)
     private String name;
+
 
 }//end class

@@ -16,7 +16,9 @@ import java.util.List;
 @Data
 public class Utenza {
 
-    @Id @Column(name="id") Integer id;
+    @Id
+    @Column(name="id")
+    Integer id;
 
     @MapsId
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,7 +29,8 @@ public class Utenza {
     private String email;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="rel_utenza_ruolo",
             joinColumns = @JoinColumn(name = "utenza_id", referencedColumnName = "id"),
