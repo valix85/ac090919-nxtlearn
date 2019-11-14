@@ -1,3 +1,51 @@
 html, body {
-    background: #CCC;
+    background: #FDFDFD;
 }
+
+h1 {
+    color: #333;
+}
+.text-bold {font-weight: 600;}
+.btn {
+    /*padding: 8px 15px;*/
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background: #0062cc;
+}
+
+
+
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.login-form-1{
+    margin: 25%;
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+    text-align: center;
+    color: #333;
+}
+.login-container form{
+    margin: 25%;
+    padding: 10%;
+}
+
+
+#container-register{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+#titolo{
+    text-align: center;
+    color: #333;
+}
+

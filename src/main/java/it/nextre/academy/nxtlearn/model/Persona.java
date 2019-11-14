@@ -91,4 +91,15 @@ public class Persona implements Cloneable{
     public void setCognome(String cognome) {
         this.cognome = cognome.strip();
     }
+/*
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                '}';
+    }
+
+ */
 }//end class

@@ -2,6 +2,7 @@ package it.nextre.academy.nxtlearn.api;
 
 import it.nextre.academy.nxtlearn.dto.NuovoUtenteDto;
 import it.nextre.academy.nxtlearn.dto.PersonaDto;
+import it.nextre.academy.nxtlearn.exception.PersonaAlreadyExistsException;
 import it.nextre.academy.nxtlearn.exception.RuoloNotFoundException;
 import it.nextre.academy.nxtlearn.model.Persona;
 import it.nextre.academy.nxtlearn.model.Ruolo;
@@ -47,6 +48,11 @@ public class RegistrationController {
     public PersonaDto doRegistration(@RequestBody @Valid NuovoUtenteDto nuovoUtente, BindingResult result){
         logger.debug("POST RegistrationController.doRegistration()");
         System.out.println(nuovoUtente);
+
+        if (utenzaService.findByEmail(nuovoUtente.getEmail())!=null){
+            throw new PersonaAlreadyExistsException();
+        }
+
         Persona tmp = new Persona();
         tmp.setNome(nuovoUtente.getNome());
         tmp.setCognome(nuovoUtente.getCognome());
@@ -63,7 +69,7 @@ public class RegistrationController {
             ruolo = ruoloService.getByName("SIMPLEUSER");
         } catch (RuoloNotFoundException e){
             logger.debug("Creazione nuovo ruolo in fase di registrazione");
-            ruolo = ruoloService.save(new Ruolo("SIMPLEUSER"));
+            ruolo = ruoloService.save(new Ruolo("ROLE_SIMPLEUSER"));
         }
         utenza.setRuoli(Arrays.asList(ruolo));
         utenza = utenzaService.create(utenza);

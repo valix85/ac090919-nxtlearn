@@ -2,6 +2,7 @@ package it.nextre.academy.nxtlearn.api;
 
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.NotFoundException;
+import it.nextre.academy.nxtlearn.exception.PersonaAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,13 @@ public class ExceptionHandlerRestController {
                 .getPage();
     }
 
+    @ExceptionHandler(PersonaAlreadyExistsException.class)
+    public ResponseEntity handleBadRequest(PersonaAlreadyExistsException ex){
+        logger.debug("RestControllerAdvice PersonaAlreadyExistsException");
+        return new MyError(HttpStatus.BAD_REQUEST, ex.getMessage())
+                .getPage();
+    }
+
 
 }//end class
 
@@ -54,7 +62,7 @@ class MyError{
         this.data.put("timestamp", Instant.now().toEpochMilli());
     }
     public ResponseEntity getPage(){
-        return new ResponseEntity(data,customHeaders,statusCode);
+        return new ResponseEntity(data,statusCode);
     };
 
     public MyError addData(String key, Object value){

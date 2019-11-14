@@ -10,9 +10,9 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="container-register">
     <div class="row">
-        <div class="col"><h1>REGISTRAZIONE</h1></div>
+        <div class="col" id="titolo"><h1>REGISTRAZIONE</h1></div>
     </div>
     <div class="row">
         <div class="col">
@@ -35,7 +35,9 @@
                         <input type="password" name="password" placeholder="password"  class="form-control">
                     </div>
                     <br>
-                    <button type="button" id="submitRegistrationForm" class="btn btn-success">REGISTRATI</button>
+                    <div class="text-center">
+                    <button type="button" id="submitRegistrationForm" class="btn btn-primary btn-lg" ><span class="text-bold">REGISTRATI</span></button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -58,6 +60,8 @@
 
 
 <script>
+
+
     function getJsonFromFormData(fd){
         let obj = {};
         for (let el of fd.entries()){
@@ -83,16 +87,17 @@
             .then(risp => {
                 if(risp.ok)
                     return risp.json()
-                else throw new Error('Errore di registrazione');
+                else throw new Error(risp.body);
             })
             .then(r=>{
                 console.log(r);
                 alert(`congratulazioni per esserti iscritto, hai l'id: ${r.id}`)
             })
             .catch(err=>{
-                console.error(err);
-                alert(err);
-            });
+                console.log(err)
+                //then(er=>console.log(er));
+            })
+           ;
         //console.log("dopo-chiamata-ma-in-contemporanea")
     }
     document.getElementById('submitRegistrationForm')

@@ -1,6 +1,8 @@
 package it.nextre.academy.nxtlearn.config;
 
 import it.nextre.academy.nxtlearn.service.impl.CustomUserDetailsServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +40,7 @@ import java.io.IOException;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -131,13 +134,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        System.out.println("UTENTE LOGGATO");
-                        System.out.println(authentication.getPrincipal());
+                       logger.info("UTENTE LOGGATO: "+authentication.getPrincipal());
+
                         authentication.getAuthorities().forEach(System.out::println);
                         System.out.println(authentication.getDetails());
 
                     }
                 })
+                //.successForwardUrl("/")
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {

@@ -16,4 +16,9 @@ public class UtenzaServiceImpl implements UtenzaService {
     public Utenza create(Utenza ut) {
         return utenzaRepository.save(ut);
     }
+
+    @Override
+    public Utenza findByEmail(String email) {
+        return utenzaRepository.findByEmail(email);
+    }
 }//end class

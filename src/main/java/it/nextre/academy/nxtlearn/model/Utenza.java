@@ -37,4 +37,13 @@ public class Utenza {
             inverseJoinColumns = @JoinColumn(name="ruolo_id", referencedColumnName = "id")
     )
     private Collection<Ruolo> ruoli;
+
+    @Override
+    public String toString() {
+        return "Utenza{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                // ", password='" + password + '\'' + //resta traccia nei log, mai stampare la password
+                '}';
+    }
 }//end class

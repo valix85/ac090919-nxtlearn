@@ -1,6 +1,8 @@
 package it.nextre.academy.nxtlearn.config;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.view.JstlView;
 // @EnableWebMvc //se attivato resetta la pre-configurazione di springboot e sarà necessario specificare nuovamente tutte le configurazioni del viewResolver e altro...
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     //override dei metodi per impostare tutte le possibili configurazioni di spring WebMvc
     //configurazioni di esempio
     /*
