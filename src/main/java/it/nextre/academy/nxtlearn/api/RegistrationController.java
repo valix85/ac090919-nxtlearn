@@ -66,7 +66,7 @@ public class RegistrationController {
 
         Ruolo ruolo = null;
         try {
-            ruolo = ruoloService.getByName("SIMPLEUSER");
+            ruolo = ruoloService.getByName("ROLE_SIMPLEUSER");
         } catch (RuoloNotFoundException e){
             logger.debug("Creazione nuovo ruolo in fase di registrazione");
             ruolo = ruoloService.save(new Ruolo("ROLE_SIMPLEUSER"));

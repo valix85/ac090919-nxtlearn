@@ -85,23 +85,84 @@
             body: JSON.stringify(Object.fromEntries(fd)) // da aprile 2019!
         })
             .then(risp => {
-                if(risp.ok)
-                    return risp.json()
-                else throw new Error(risp.body);
+                if (!risp.ok) throw risp;
+                return risp.json();
             })
             .then(r=>{
                 console.log(r);
                 alert(`congratulazioni per esserti iscritto, hai l'id: ${r.id}`)
             })
             .catch(err=>{
-                console.log(err)
-                //then(er=>console.log(er));
+                return err.json();
+            })
+            .then(ex=>{
+                alert(`Errore nel gestire la richiesta\nCODE: ${ex.status}\n${ex.data} `)
             })
            ;
         //console.log("dopo-chiamata-ma-in-contemporanea")
     }
     document.getElementById('submitRegistrationForm')
         .addEventListener('click',elaboraForm);
+
+
+
+
+
+
+
+
+
+
+    //------------------------------------
+    //--- SPIEGA PROMISE E ASYNC AWAIT ---
+    //------------------------------------
+
+    async function  elabora1(){
+        let promise = new Promise((res,rej)=>{
+            if (Math.random()<0.8)
+                setTimeout(()=>res("ciao $"+Math.random()),1500);
+            else
+                rej("KO")
+        })
+
+        return promise;
+    }
+
+    async function attendi() {
+        let risultato1 = await elabora1()
+            .then(ris => {
+                //console.log(ris);
+                return ris
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+        let risultato2 = await elabora1()
+            .then(ris => {
+                //console.log(ris);
+                return ris
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+        console.log("risultato2: ", risultato2);
+        console.log("risultato1: ", risultato1);
+
+    }
+
+    attendi();
+
+
+
+
+
+
+
+
+
+
 
 </script>
 
