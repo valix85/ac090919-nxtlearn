@@ -49,6 +49,9 @@ public class RegistrationController {
         logger.debug("POST RegistrationController.doRegistration()");
         System.out.println(nuovoUtente);
 
+        // todo è giusto qui? va FORSE in un service?
+        // todo aggiungere i controlli sul modello... e controllare che sia valido!
+
         if (utenzaService.findByEmail(nuovoUtente.getEmail())!=null){
             throw new PersonaAlreadyExistsException();
         }
