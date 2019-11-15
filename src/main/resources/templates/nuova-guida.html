@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiungi guida</title>
+    <div class="tmp" th:replace="fragment/structure.html :: metaDataHead"></div>
+    <div th:replace="fragment/structure.html :: globalCss"></div>
+</head>
+<body>
+<div th:replace="fragment/structure.html :: barraNav"></div>
+
+<div class="container" id="container-register">
+    <div class="row">
+        <div class="col" id="titolo"><h1>AGGIUNGI GUIDA</h1></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="registration">
+                <form method="post" th:action="@{/guida/add}">
+                    <p>Inserisci l'url:</p>
+                    <div class="form-group">
+                        <input type="text" name="url" placeholder="URL" class="form-control">
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" ><span class="text-bold">INSERISCI</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

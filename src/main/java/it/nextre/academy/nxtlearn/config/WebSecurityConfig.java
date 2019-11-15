@@ -123,7 +123,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/", "/api/guida/**","/api/register","/register").permitAll()
+                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register").permitAll()
                 //.antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/guida")
-public class GuidaController {
+public class GuidaRestController {
 
     @Autowired
     GuidaService guidaService;
