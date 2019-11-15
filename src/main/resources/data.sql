@@ -27,3 +27,14 @@ insert into rel_persona_guida (persona_id,guida_id) values
 (3,2);
 
 insert into rel_persona_guida (persona_id,guida_id) values (1,3);
+
+insert into capitolo(id, data_creazione, nome, ordine_capitolo,guida_id) values
+(1, 20191115, "Primi passi con JavaScript", 1,3 ),
+(2, 20191115, "Gli elementi base del linguaggio",  2,3 ),
+(3, 20191115, "Controllo di flusso",  3 ,3),
+(4, 20191115, "Primi passi con Android", 1,4);
+insert into lezione(id,data_creazione,autore,titolo, contenuto,ordine_lezione,capitolo_id) values
+(1, 20140228, "Andrea Chiarelli", "Introduzione a JavaScript", "JavaScript è uno dei linguaggi di programmazione più usati al mondo, anche se con una storia di alti e bassi, la sua consolidata presenza nell’olimpo dei grandi linguaggi come C, C++ e Java è certa. ",1,1),
+(2,20140228, "Andrea Chiarelli","Gli strumenti di lavoro" ,"Come per qualsiasi linguaggio di programmazione, per iniziare a lavorare con JavaScript c’è bisogno di almeno tre strumenti: un editor, un interprete o compilatore, un debugger.",2,1),
+(3,20190911,"Giuseppe Maggi", "Introduzione: perchè Android","Android è il principale sistema operativo per il mobile al mondo. Stando alle statistiche, anima circa tre dispositivi su quattro lasciando lo spazio restante ad iOS di Apple." , 1, 4);
+

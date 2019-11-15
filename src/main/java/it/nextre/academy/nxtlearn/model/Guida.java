@@ -61,4 +61,10 @@ public class Guida extends BaseEntity{
     private List<PersonaGuida> persone;
 
 
+
+
+    @OneToMany(mappedBy = "guida")
+    private List<Capitolo> capitoli;
+
+
 }//end class
