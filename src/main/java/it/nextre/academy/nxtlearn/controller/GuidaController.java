@@ -16,9 +16,11 @@ public class GuidaController {
         return "nuova-guida.html";
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping("/add")
     public String doAdd(@RequestParam("url") String url){
         System.out.println(url);
+        //todo fare scraping e salvataggio
         return "home";
     }
 
