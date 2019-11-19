@@ -3,6 +3,7 @@ package it.nextre.academy.nxtlearn.service.impl;
 
 
 import it.nextre.academy.nxtlearn.config.CustomUserDetails;
+import it.nextre.academy.nxtlearn.exception.NotFoundException;
 import it.nextre.academy.nxtlearn.model.Utenza;
 import it.nextre.academy.nxtlearn.repository.UtenzaRepository;
 import org.slf4j.Logger;
@@ -28,7 +29,9 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         log.debug("Calling loadUserByUsername method with username: " + username);
 
         Utenza tmp = utenzaRepository.findByEmail(username);
-        log.debug("trovato utente: "+tmp);
+        if (tmp == null)
+            throw new UsernameNotFoundException("USERNAME NON VALIDO");
+        log.debug("loggato utente: "+tmp);
         //System.out.println("####"+tmp);
         //System.out.println("####"+new CustomUserDetails(tmp));
 

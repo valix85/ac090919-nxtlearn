@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.config;
 
+import it.nextre.academy.nxtlearn.exception.NotFoundException;
 import it.nextre.academy.nxtlearn.service.impl.CustomUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,11 +25,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -120,10 +128,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register").permitAll()
+                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/**").permitAll()
                 //.antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -144,17 +154,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.successForwardUrl("/")
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
-                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
                         System.out.println("UTENTE RESPINTO");
+                        System.out.println("ciaone"+exception);
+                        response.sendError(403,exception.getMessage());
                     }
                 })
-                .failureForwardUrl("/login?error=true")
+                //.failureForwardUrl("/login?error=true")
                 .permitAll()
                 .and()
                 .logout()
                 .permitAll();
     }
 
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource()
+    {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration = configuration.applyPermitDefaultValues();
+        //configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH","OPTIONS","HEAD"));
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 

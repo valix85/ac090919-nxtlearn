@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,16 @@ public class ExceptionHandlerController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("errors/404.html");
         mv.setStatus(HttpStatus.NOT_FOUND);
+        mv.addObject("mex", ex.getMessage());
+        return mv;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ModelAndView handleBadCredentialsException(BadCredentialsException ex) {
+        logger.debug("ControllerAdvice BadCredentialsException");
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("errors/404.html");
+        mv.setStatus(HttpStatus.FORBIDDEN);
         mv.addObject("mex", ex.getMessage());
         return mv;
     }
