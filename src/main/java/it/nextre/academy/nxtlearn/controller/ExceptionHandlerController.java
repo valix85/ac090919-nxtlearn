@@ -32,7 +32,7 @@ public class ExceptionHandlerController {
     public ModelAndView handleBadCredentialsException(BadCredentialsException ex) {
         logger.debug("ControllerAdvice BadCredentialsException");
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("errors/404.html");
+        mv.setViewName("errors/403.html");
         mv.setStatus(HttpStatus.FORBIDDEN);
         mv.addObject("mex", ex.getMessage());
         return mv;

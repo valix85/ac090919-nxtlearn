@@ -133,7 +133,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/**").permitAll()
+                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/error","/404","/403").permitAll()
                 //.antMatchers("/assets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -156,7 +156,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
                         System.out.println("UTENTE RESPINTO");
-                        System.out.println("ciaone"+exception);
                         response.sendError(403,exception.getMessage());
                     }
                 })
