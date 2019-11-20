@@ -27,7 +27,7 @@ public class GuidaRestController {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Secured({"ROLE_SIMPLEUSER"})  // = jsr250 @RoleAllowed
+    @Secured({"ROLE_SIMPLEUSER", "ROLE_ADMIN"})  // = jsr250 @RoleAllowed
     @GetMapping("/{id}")
     public GuidaDto getByID(@PathVariable("id") Integer id) {
         logger.info("LOG: getById, id=" + id);

@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -145,10 +147,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                        logger.info("UTENTE LOGGATO: "+authentication.getPrincipal());
-
                         authentication.getAuthorities().forEach(System.out::println);
                         System.out.println(authentication.getDetails());
-
+                        // System.out.println(request);
                     }
                 })
                 //.successForwardUrl("/")
@@ -156,7 +157,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
                         System.out.println("UTENTE RESPINTO");
+                        // System.out.println(request);
                         response.sendError(403,exception.getMessage());
+
                     }
                 })
                 //.failureForwardUrl("/login?error=true")
@@ -165,6 +168,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         ;
     }
 
