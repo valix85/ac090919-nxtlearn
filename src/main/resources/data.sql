@@ -19,7 +19,8 @@ VALUES
 (3,"Michela","Manelli"),
 (4,"Gino","Brunetta"),
 (5,"Maria","Vongola"),
-(6,"Gina","Branzino");
+(6,"Gina","Branzino"),
+(7,"Valerio","Radice");
 -- pwd demo
 INSERT INTO utenza (id, email, password) values
 (1,"admin@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu"),
@@ -27,13 +28,15 @@ INSERT INTO utenza (id, email, password) values
 (3,"user1@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu"),
 (4,"user2@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu"),
 (5,"user3@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu"),
-(6,"publisher@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu");
+(6,"publisher@demo.it","$2a$10$UlgcOBJZMOJSL8upaz79f.2c6Bj8Dr8Bt0QgqbkOuSBkh7UYh1pYu"),
+(7,"valix85@gmail.com","$2a$10$Z.NiEj0CdrCntqFDd84JGuahYIC0jW11ebdVRSoC9zSxGluFt0WDm");
 insert into rel_utenza_ruolo(ruolo_id,utenza_id) values
 (1,1),
 (2,2),
 (4,3),
 (4,4),
 (4,5),
+(4,7),
 (3,6);
 -- il next_val è intratabelle, pertanto metto un valore alto che non verrà raggiunto con l'import automatico
 -- UPDATE hibernate_sequence SET next_val = 1000;
