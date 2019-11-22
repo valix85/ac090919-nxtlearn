@@ -14,15 +14,14 @@ import java.io.IOException;
 
 
 @Component
-public class CustomLogoutSuccessHandler implements LogoutSuccessHandler{
+public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-
-@Override
-public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        logger.info("utente sloggato: "+ ((CustomUserDetails) authentication.getPrincipal()).getUsername());
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        logger.info("utente sloggato: " + ((CustomUserDetails) authentication.getPrincipal()).getUsername());
         response.setStatus(200);
-}
+    }
 
 }//end class
