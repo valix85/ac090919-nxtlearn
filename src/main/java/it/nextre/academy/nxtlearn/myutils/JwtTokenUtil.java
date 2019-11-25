@@ -16,12 +16,19 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
+
+
+    @Value("${jwt.expiretime}")
     //public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; // 5h
     //public static final long JWT_TOKEN_VALIDITY = 30; // 30s
-    public static final long JWT_TOKEN_VALIDITY = 10 * 60; // 10m
+    public long JWT_TOKEN_VALIDITY;
 
     @Value("${jwt.secret}")
     private String secret;
+
+
+
+
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);

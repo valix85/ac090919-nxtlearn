@@ -61,7 +61,7 @@ public class JwtAuthenticationController {
         role = role.replaceAll("ROLE_","");
         risp.put("role",role);
 
-        risp.put("expireSession", jwtTokenUtil.getExpirationDateFromToken(token));
+        risp.put("expireSession", jwtTokenUtil.getExpirationDateFromToken(token).toInstant().toEpochMilli());
         risp.put("nome", ((CustomUserDetails)userDetails).getPersona().getNome());
         risp.put("cognome",((CustomUserDetails)userDetails).getPersona().getCognome());
 
