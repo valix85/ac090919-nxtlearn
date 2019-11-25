@@ -1,12 +1,14 @@
 package it.nextre.academy.nxtlearn.config;
 
 import it.nextre.academy.nxtlearn.exception.NotFoundException;
+import it.nextre.academy.nxtlearn.filter.JwtRequestFilter;
 import it.nextre.academy.nxtlearn.service.impl.CustomUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -63,6 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+
+
 
 /*
     @Bean
@@ -142,8 +154,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/error","/404","/403").permitAll()
+                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/error","/404","/403","/authenticate").permitAll()
                 //.antMatchers("/assets/**").permitAll()
+                // aggiungere le options per il jwt
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -170,9 +184,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                //.sessionManagement()
+                //.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         ;
+
+
+        // Add a filter to validate the tokens with every request
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

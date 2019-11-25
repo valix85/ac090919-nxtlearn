@@ -1,0 +1,62 @@
+package it.nextre.academy.nxtlearn.api;
+
+
+import it.nextre.academy.nxtlearn.dto.JwtRequestDto;
+import it.nextre.academy.nxtlearn.dto.JwtResponseDto;
+import it.nextre.academy.nxtlearn.myutils.JwtTokenUtil;
+import it.nextre.academy.nxtlearn.service.impl.CustomUserDetailsServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.*;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
+@RestController
+public class JwtAuthenticationController {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    //@Autowired
+    //private AuthenticationManager authenticationManager;
+
+    @Autowired
+    AuthenticationProvider authenticationProvider;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    //private JwtUserDetailsService userDetailsService;
+    private CustomUserDetailsServiceImpl userDetailsService;
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequestDto authenticationRequest) throws Exception {
+        logger.debug("Tentativo di autenticazione da: " + authenticationRequest.getUtente());
+        authenticate(authenticationRequest.getUtente(), authenticationRequest.getPwd());
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUtente());
+        final String token = jwtTokenUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponseDto(token));
+    }
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            logger.debug("username: "+ username+" , password: " +
+                    ((password!=null)?"*".repeat(password.length()):"null") );
+            //authenticationManager
+            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
+
+}//end class
