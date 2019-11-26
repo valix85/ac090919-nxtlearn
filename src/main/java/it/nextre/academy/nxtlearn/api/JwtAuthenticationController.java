@@ -64,7 +64,7 @@ public class JwtAuthenticationController {
         risp.put("expireSession", jwtTokenUtil.getExpirationDateFromToken(token).toInstant().toEpochMilli());
         risp.put("nome", ((CustomUserDetails)userDetails).getPersona().getNome());
         risp.put("cognome",((CustomUserDetails)userDetails).getPersona().getCognome());
-
+        System.out.println(risp);
         return ResponseEntity.ok(risp);
     }
 

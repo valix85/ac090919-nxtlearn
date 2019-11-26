@@ -20,7 +20,9 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        if (authentication!=null)
         logger.info("utente sloggato: " + ((CustomUserDetails) authentication.getPrincipal()).getUsername());
+        logger.debug("LOGOUT called");
         response.setStatus(200);
     }
 
