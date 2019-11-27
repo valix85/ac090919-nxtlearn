@@ -9,4 +9,6 @@ public interface GuidaService {
     Guida update(Guida g);
     Boolean deleteById(Integer id);
     GuidaDto toDto(Guida guida);
+
+    List<Guida> getLastTen();
 }

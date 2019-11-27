@@ -42,6 +42,23 @@ public class GuidaRestController {
         }
     }
 
+    @GetMapping("/latest")
+    public List<GuidaDto> getLastTen() {
+        logger.info("LOG: getLastTen" );
+        List<Guida> guide = guidaService.getLastTen();
+        List<GuidaDto> risp = new ArrayList<>();
+        if (guide!=null && guide.size()>0){
+            for(Guida guida : guide){
+                risp.add(guidaService.toDto(guida));
+            }
+        }
+        return risp;
+    }
+
+
+
+
+
     @GetMapping
     public List<GuidaDto> getGuide() {
         logger.info("Log: getGuide()");

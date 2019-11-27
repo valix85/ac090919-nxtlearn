@@ -64,4 +64,10 @@ public class GuidaServiceImpl implements GuidaService {
         //versione 2 : il DTO stesso è responsabile del suo popolamento
         return new GuidaDto(guida);
     }
+
+
+    @Override
+    public List<Guida> getLastTen() {
+        return guidaRepository.findTop10ByOrderByDataCreazioneDesc();
+    }
 }//end class
