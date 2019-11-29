@@ -3,7 +3,10 @@ package it.nextre.academy.nxtlearn.service.impl;
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
 import it.nextre.academy.nxtlearn.model.Guida;
 
+import it.nextre.academy.nxtlearn.repository.AllegatoRepository;
+import it.nextre.academy.nxtlearn.repository.CapitoloRepository;
 import it.nextre.academy.nxtlearn.repository.GuidaRepository;
+import it.nextre.academy.nxtlearn.repository.LezioneRepository;
 import it.nextre.academy.nxtlearn.service.GuidaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,15 @@ public class GuidaServiceImpl implements GuidaService {
 
     @Autowired
     GuidaRepository guidaRepository;
+
+    @Autowired
+    CapitoloRepository capitoloRepository;
+
+    @Autowired
+    LezioneRepository lezioneRepository;
+
+    @Autowired
+    AllegatoRepository allegatoRepository;
 
         
     @Override
@@ -62,9 +74,10 @@ public class GuidaServiceImpl implements GuidaService {
     @Override
     public GuidaDto toDto(Guida guida) {
         //versione 2 : il DTO stesso è responsabile del suo popolamento
-        return new GuidaDto(guida);
+        GuidaDto gdto = new GuidaDto(guida);
+        gdto.caricaCapitoli(capitoloRepository, lezioneRepository, allegatoRepository);
+        return gdto;
     }
-
 
     @Override
     public List<Guida> getLastTen() {
