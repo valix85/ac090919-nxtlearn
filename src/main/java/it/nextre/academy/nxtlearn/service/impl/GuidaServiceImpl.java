@@ -12,6 +12,7 @@ import it.nextre.academy.nxtlearn.service.GuidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,4 +84,12 @@ public class GuidaServiceImpl implements GuidaService {
     public List<Guida> getLastTen() {
         return guidaRepository.findTop10ByOrderByDataCreazioneDesc();
     }
+
+
+    @Override
+    public List<Guida> findByNome(String nome) {
+        List<Guida> guide=guidaRepository.findAllByNomeContaining(nome);
+        return guide;
+    }
+
 }//end class

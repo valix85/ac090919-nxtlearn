@@ -11,4 +11,6 @@ public interface GuidaService {
     GuidaDto toDto(Guida guida);
 
     List<Guida> getLastTen();
+
+    List<Guida> findByNome(String nome);
 }

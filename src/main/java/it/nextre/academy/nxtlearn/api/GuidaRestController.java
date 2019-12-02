@@ -55,10 +55,6 @@ public class GuidaRestController {
         return risp;
     }
 
-
-
-
-
     @GetMapping
     public List<GuidaDto> getGuide() {
         logger.info("Log: getGuide()");
@@ -124,6 +120,24 @@ public class GuidaRestController {
         Guida tmp = guidaService.findById(id);
         if (tmp != null) {
             guidaService.deleteById(id);
+            return tmp;
+        } else {
+            throw new GuidaNotFoundException();
+        }
+    }
+
+
+
+
+    @GetMapping("/search/{nome}")
+    public List<GuidaDto> getByName(@PathVariable("nome") String nome) {
+        logger.info("LOG: getByName, nome=" + nome);
+        List<Guida> guide = guidaService.findByNome(nome);
+        List<GuidaDto> tmp = new ArrayList<>();
+        if (guide != null) {
+            for (Guida g : guide) {
+                tmp.add(guidaService.toDto(g));
+            }
             return tmp;
         } else {
             throw new GuidaNotFoundException();
