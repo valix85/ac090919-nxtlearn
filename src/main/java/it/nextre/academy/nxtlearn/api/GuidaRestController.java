@@ -1,10 +1,13 @@
 package it.nextre.academy.nxtlearn.api;
 
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
+import it.nextre.academy.nxtlearn.dto.LezioneDto;
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.GuidaNotFoundException;
 import it.nextre.academy.nxtlearn.model.Guida;
+import it.nextre.academy.nxtlearn.model.Lezione;
 import it.nextre.academy.nxtlearn.service.GuidaService;
+import it.nextre.academy.nxtlearn.service.LezioneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class GuidaRestController {
     @Autowired
     GuidaService guidaService;
 
+    @Autowired
+    LezioneService lezioneService;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Secured({"ROLE_SIMPLEUSER", "ROLE_ADMIN"})  // = jsr250 @RoleAllowed
@@ -36,7 +42,7 @@ public class GuidaRestController {
         logger.info("LOG: getById, id=" + id);
         Guida tmp = guidaService.findById(id);
         if (tmp != null) {
-            return guidaService.toDto(tmp);
+            return guidaService.toDto(tmp, false);
         } else {
             throw new GuidaNotFoundException();
         }
@@ -49,7 +55,7 @@ public class GuidaRestController {
         List<GuidaDto> risp = new ArrayList<>();
         if (guide!=null && guide.size()>0){
             for(Guida guida : guide){
-                risp.add(guidaService.toDto(guida));
+                risp.add(guidaService.toDto(guida, true));
             }
         }
         return risp;
@@ -77,6 +83,7 @@ public class GuidaRestController {
         return out ;
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}")
     public Guida editOne(@RequestBody Guida p, @PathVariable("id") Integer id) {
         logger.info("Log: update()");
@@ -91,6 +98,7 @@ public class GuidaRestController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public Guida addOne(@RequestBody @Valid Guida tmp, BindingResult validator) {
         logger.debug("LOG: addOne()");
@@ -136,9 +144,37 @@ public class GuidaRestController {
         List<GuidaDto> tmp = new ArrayList<>();
         if (guide != null) {
             for (Guida g : guide) {
-                tmp.add(guidaService.toDto(g));
+                tmp.add(guidaService.toDto(g, true));
             }
             return tmp;
+        } else {
+            throw new GuidaNotFoundException();
+        }
+    }
+
+    @Secured({"ROLE_SIMPLEUSER", "ROLE_ADMIN"})  // = jsr250 @RoleAllowed
+    @GetMapping("/short/{id}")
+    public GuidaDto getShortByID(@PathVariable("id") Integer id) {
+        logger.info("LOG: getShortByID, id=" + id);
+        Guida tmp = guidaService.findById(id);
+        if (tmp != null) {
+            return guidaService.toDto(tmp, true);
+        } else {
+            throw new GuidaNotFoundException();
+        }
+    }
+
+    @Secured({"ROLE_SIMPLEUSER", "ROLE_ADMIN"})  // = jsr250 @RoleAllowed
+    @GetMapping("/{idg}/capitolo/{idc}/lezione/{idl}")
+    public LezioneDto getLezioneByID(@PathVariable("idl") Integer id) {
+        logger.info("LOG: getLezioneByID, id=" + id);
+        Lezione tmp = lezioneService.findById(id);
+        System.out.println("LEZIONE TROVATA");
+        if (tmp != null) {
+            System.out.println("PROVO A FARE IL DTO");
+            LezioneDto tmp1 = lezioneService.toDto(tmp);
+            System.out.println("LEZIONE DTO CREATO: "+tmp1);
+            return tmp1;
         } else {
             throw new GuidaNotFoundException();
         }

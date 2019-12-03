@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,12 @@ public class LezioneDto {
     private String autore;
     private String contenuto;
     private List allegati = new ArrayList();
+    private Integer id;
+    private Date dataCreazione;
 
     public LezioneDto(Lezione lezione, AllegatoRepository allegatoRepository){
+        this.id=lezione.getId();
+        this.dataCreazione=lezione.getDataCreazione();
         this.titolo = lezione.getTitolo();
         this.descrizione = lezione.getDescrizione();
         this.autore = lezione.getAutore();

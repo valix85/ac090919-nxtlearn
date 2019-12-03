@@ -44,10 +44,10 @@ public class GuidaDto {
         }
     }
 
-    public void caricaCapitoli(CapitoloRepository capitoloRepository, LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository){
+    public void caricaCapitoli(CapitoloRepository capitoloRepository, LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository, boolean soloIntestazione){
         this.capitoli = capitoloRepository.findAllByGuidaOrderByOrdineCapitolo(this.g)
                 .stream()
-                .map(c -> new CapitoloDto(c,lezioneRepository, allegatoRepository))
+                .map(c -> new CapitoloDto(c,lezioneRepository, allegatoRepository, soloIntestazione))
                 .collect(Collectors.toList());
     }
 

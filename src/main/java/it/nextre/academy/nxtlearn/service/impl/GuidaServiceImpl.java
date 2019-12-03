@@ -73,10 +73,10 @@ public class GuidaServiceImpl implements GuidaService {
     }
 
     @Override
-    public GuidaDto toDto(Guida guida) {
+    public GuidaDto toDto(Guida guida, Boolean soloIntestazione) {
         //versione 2 : il DTO stesso è responsabile del suo popolamento
         GuidaDto gdto = new GuidaDto(guida);
-        gdto.caricaCapitoli(capitoloRepository, lezioneRepository, allegatoRepository);
+        gdto.caricaCapitoli(capitoloRepository, lezioneRepository, allegatoRepository, soloIntestazione);
         return gdto;
     }
 

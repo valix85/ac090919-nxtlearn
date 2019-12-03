@@ -8,7 +8,7 @@ public interface GuidaService {
     Guida newGuida(Guida g);
     Guida update(Guida g);
     Boolean deleteById(Integer id);
-    GuidaDto toDto(Guida guida);
+    GuidaDto toDto(Guida guida, Boolean soloIntestazione);
 
     List<Guida> getLastTen();
 

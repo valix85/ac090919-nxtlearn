@@ -30,17 +30,23 @@ public class CapitoloDto {
 
     private String nome;
     private List lezioni = new ArrayList<>();
+    private Integer id;
 
-    public CapitoloDto(Capitolo capitolo, LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository){
+    public CapitoloDto(Capitolo capitolo, LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository, boolean soloIntestazione){
         this.capitolo = capitolo;
         this.nome = capitolo.getNome();
-        caricaLezioni(lezioneRepository, allegatoRepository);
+        this.id=capitolo.getId();
+        caricaLezioni(lezioneRepository, allegatoRepository, soloIntestazione);
     }
 
-    public void caricaLezioni(LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository){
+    public void caricaLezioni(LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository, boolean soloIntestazione){
         this.lezioni = lezioneRepository.findAllByCapitoloOrderByOrdineLezione(capitolo)
                 .stream()
-                .map(l -> new LezioneDto(l, allegatoRepository))
+                .map(l -> {
+                    if (soloIntestazione)
+                        return new LezioneDtoShort(l);
+                    else
+                        return new LezioneDto(l, allegatoRepository);})
                 .collect(Collectors.toList());
     }
 
