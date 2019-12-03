@@ -1,6 +1,7 @@
 package it.nextre.academy.nxtlearn.api;
 
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
+import it.nextre.academy.nxtlearn.exception.NotAllowedException;
 import it.nextre.academy.nxtlearn.exception.NotFoundException;
 import it.nextre.academy.nxtlearn.exception.PersonaAlreadyExistsException;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Instant;
 import java.util.*;
@@ -47,6 +49,13 @@ public class ExceptionHandlerRestController {
                 .getPage();
     }
 
+    @ExceptionHandler(NotAllowedException.class)
+    public ResponseEntity handleBadRequest(NotAllowedException ex){
+        logger.debug("RestControllerAdvice NotAllowedException");
+        return new MyError(HttpStatus.METHOD_NOT_ALLOWED, ex.getMessage())
+                .getPage();
+    }
+
 
 }//end class
 
@@ -78,3 +87,5 @@ class MyError{
         return this;
     }
 }
+
+
