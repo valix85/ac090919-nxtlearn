@@ -107,6 +107,8 @@ public class PersonaRestController {
     }
 
 
+
+    // todo attendo modifica frustecchi
     @Secured({"ROLE_SIMPLEUSER", "ROLE_ADMIN"})  // = jsr250 @RoleAllowed
     @PostMapping("/subscribe")
     public MyResponse iscrizioneGuida(@RequestBody Map<String, Object> body, Principal user) {
@@ -125,27 +127,52 @@ public class PersonaRestController {
             ex.printStackTrace();
         }
         // recupero l'ID dello user che esegue la richiesta
-        Integer idUtenteRichiesta = (Integer) body.get("utenzaId");
-        Integer idGuidaRichiesta = (Integer) body.get("guidaId");
-        String email = (String)body.get("email");
-        PersonaGuida risp = null;
-        if (idUtenteLoggato > 0 && idUtenteRichiesta != null && idUtenteRichiesta > 0 && idGuidaRichiesta != null && idGuidaRichiesta > 0) {
-            // OK I DATI SONO VALIDI
-            if (idUtenteLoggato.equals(idUtenteRichiesta)) {
-                //l'utenza che si iscrive alla guida è la stessa
-                risp = personaGuidaService.addRelation(idUtenteRichiesta, idGuidaRichiesta);
-            } else {
-                // devo controllare che l'utente loggato sia un admin
-                if (isAdmin) {
-                    //utente è admin, addRelation OK!
-                    risp = personaGuidaService.addRelation(idUtenteRichiesta, idGuidaRichiesta);
-                } else {
-                    //utente NON è un admin
-                    throw new NotAllowedException("Permessi insufficienti per eseguire l'operazione");
-                }
-            }
+        Integer idUtenteRichiesta = -1;
+        try {
+            idUtenteRichiesta = (Integer) body.get("utenzaId");
+            if (idUtenteRichiesta==null)
+                throw new IllegalArgumentException("utenzaId non presente");
+            // todo valutare che se non è un numero devo bloccare tutto, e non settarlo a -1
+            System.out.println(idUtenteRichiesta);
+        }catch (IllegalArgumentException ex){
+            //se non c'è resta -1
+            idUtenteRichiesta = -1;
         }
-        return new MyResponse(HttpStatus.OK,risp);
+        //controllo l'id della guida
+        Integer idGuidaRichiesta = -1;
+        try {
+            idGuidaRichiesta = (Integer) body.get("guidaId");
+            if (idGuidaRichiesta<=0)
+                throw new BadRequestException();
+        }catch (Exception ex){
+            throw new BadRequestException("Id guida non valido");
+        }
+
+        // String email = (String)body.get("email");
+        PersonaGuida risp = null;
+        if (idUtenteLoggato > 0 && idUtenteRichiesta != null && idUtenteRichiesta > 0 && idGuidaRichiesta != null && idGuidaRichiesta > 0 && isAdmin) {
+            // OK I DATI SONO VALIDI, SONO ADMIN, per fare un'associazion terze parti
+            risp = personaGuidaService.addRelation(idUtenteRichiesta, idGuidaRichiesta);
+            return new MyResponse(HttpStatus.OK,risp);
+        }else if (idUtenteLoggato > 0 && idUtenteRichiesta.equals(-1)){
+            // devo registrare me stesso
+            risp = personaGuidaService.addRelation(idUtenteLoggato, idGuidaRichiesta);
+            return new MyResponse(HttpStatus.OK,risp);
+        }else{
+            throw new NotAllowedException("Permessi insufficienti per eseguire l'operazione");
+        }
+    }
+
+
+    @GetMapping("/guida/{idGuida}")
+    public boolean isIscritto(@PathVariable("idGuida") Integer idGuida){
+        logger.info("CONTROLLO GUIDA: " + idGuida);
+        boolean isIscritto = personaGuidaService.checkRelation(idGuida);
+        System.out.println(isIscritto);
+        if (isIscritto)
+            return personaGuidaService.checkRelation(idGuida);
+        else
+            throw new NotFoundException("Guida non associata all'utente corrente");
     }
 
 }//end class

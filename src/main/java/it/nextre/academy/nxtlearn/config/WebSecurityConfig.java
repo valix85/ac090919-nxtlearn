@@ -154,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Le regole sono senza contesto di deploy
-                .antMatchers("/","/home","/index", "/api/guida/**","/api/register","/register","/error","/404","/403","/authenticate").permitAll()
+                .antMatchers("/","/home","/index", "/api/**","/api/register","/register","/error","/404","/403","/authenticate").permitAll()
                 //.antMatchers("/assets/**").permitAll()
                 // aggiungere le options per il jwt
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()

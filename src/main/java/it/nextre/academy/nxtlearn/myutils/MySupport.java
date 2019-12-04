@@ -1,5 +1,8 @@
 package it.nextre.academy.nxtlearn.myutils;
 
+import it.nextre.academy.nxtlearn.config.CustomUserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.io.*;
 import java.text.DecimalFormat;
 
@@ -161,6 +164,25 @@ public class MySupport {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+
+
+    public static CustomUserDetails getLoggedUser(){
+        try {
+            // todo capire se possibile fare di meglio
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof CustomUserDetails) {
+                return ((CustomUserDetails) principal);
+            } /*else {
+                return principal;
+            }*/
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }//end class
