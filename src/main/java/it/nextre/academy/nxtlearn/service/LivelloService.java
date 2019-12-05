@@ -9,5 +9,7 @@ public interface LivelloService {
     // i repository restituiscono Optional<T> ma i servizi devono lavorare con T
     Livello findById(Integer id);
 
+    Livello findByDescrizione(String livello);
+
     List<Livello> getAll();
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LivelloRepository extends JpaRepository<Livello, Integer> {
 
+    Livello findByDescrizione(String descrizione);
 }

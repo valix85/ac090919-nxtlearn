@@ -43,4 +43,14 @@ public class PersonaGuida {
     @Column(name = "data_fine",insertable = false)
     Date dataFine;
 
+    @Override
+    public String toString() {
+        return "PersonaGuida{" +
+                "id=" + id +
+                ", persona=" + persona.getId() + "("+persona.getNome()+")"+
+                ", guida=" + guida.getId() + "("+guida.getNome()+")"+
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                '}';
+    }
 }//end class

@@ -19,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonaGuidaServiceImpl implements PersonaGuidaService {
@@ -68,6 +71,44 @@ public class PersonaGuidaServiceImpl implements PersonaGuidaService {
         }
     }
 
+
+
+    @Override
+    public List<Guida> getGuideByUser(Persona p) {
+        if(p == null || p.getId()==null)
+            return new ArrayList<>();
+        List<Guida> guideDellUtente = new ArrayList<>();
+        /*
+        personaGuidaRepository.findAll().stream()
+                .filter(relation -> relation.getPersona().getId().equals(p.getId()) )
+                .forEach( rel -> guideDellUtente.add(rel.getGuida()));
+        */
+
+        guideDellUtente = personaGuidaRepository.findAllByPersona(p)
+                .stream()
+                .map(pg -> pg.getGuida())
+                .collect(Collectors.toList());
+
+        guideDellUtente.stream().forEach(System.out::println);
+        return guideDellUtente;
+    }
+    @Override
+    public PersonaGuida newRelation(Persona p, Guida g) {
+        if (g != null && g.getId()!=null && p!=null && p.getId()!=null) {
+            return addRelation(p.getUtenza().getId(),g.getId());
+            // return personaGuidaRepository.save(new PersonaGuida(p,g));
+        }
+        return null;
+    }
+    @Override
+    public Boolean deleteGuidesToUser(Persona p) {
+        if(p == null || p.getId() ==null)
+            return false;
+        personaGuidaRepository.findAll().stream()
+                .filter(relation -> relation.getPersona().getId().equals(p.getId()) )
+                .forEach( rel -> personaGuidaRepository.delete(rel));
+        return true;
+    }
 
 
 

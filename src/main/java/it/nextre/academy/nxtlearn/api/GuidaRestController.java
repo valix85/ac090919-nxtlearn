@@ -6,12 +6,14 @@ import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.exception.GuidaNotFoundException;
 import it.nextre.academy.nxtlearn.model.Guida;
 import it.nextre.academy.nxtlearn.model.Lezione;
+import it.nextre.academy.nxtlearn.service.GuidaScraperService;
 import it.nextre.academy.nxtlearn.service.GuidaService;
 import it.nextre.academy.nxtlearn.service.LezioneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -178,5 +180,25 @@ public class GuidaRestController {
         } else {
             throw new GuidaNotFoundException();
         }
+    }
+
+
+
+    @Autowired
+    GuidaScraperService guidaScraperService;
+
+    @Secured({"ROLE_ADMIN"})
+    @PostMapping("/addbyurl")
+    public ResponseEntity getGuidaByUrl(@RequestBody Map<String, String> body) {
+        logger.info("LOG: getGuidaByUrl");
+        String url = body.get("url");
+        logger.debug("URL passato a guidaRestController: " + url);
+        if (url!=null && url.contains("http") && url.contains("html.it/")) {
+            //todo performare un controllo, se già presente fare l'update della guida
+            guidaScraperService.esecuzione(url);
+        }else{
+            throw new BadRequestException("Url sorgente non valido");
+        }
+        return new MyResponse(HttpStatus.OK,"OK").getPage();
     }
 }//end class

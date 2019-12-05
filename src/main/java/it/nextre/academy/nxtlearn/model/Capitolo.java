@@ -1,11 +1,13 @@
 package it.nextre.academy.nxtlearn.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -24,12 +26,28 @@ public class Capitolo extends BaseEntity {
     @Type(type="text") // LONGTEXT in mySQL
     // @Lob
     private String url;
-    @NotEmpty
-    @NotBlank
+
+    @Min(0)
     private Integer ordineCapitolo;
+
     @OneToMany(mappedBy = "capitolo")
+    @JsonBackReference
     private List<Lezione> lezioni;
+
     @OneToOne
     @JoinColumn(name="guida_id")
+    @JsonBackReference
     private Guida guida;
+
+    @Override
+    public String toString() {
+        return "Capitolo{" +
+                "nome='" + nome + '\'' +
+                ", url='" + url + '\'' +
+                ", ordineCapitolo=" + ordineCapitolo +
+                ", id=" + id +
+                ", dataCreazione=" + dataCreazione +
+                ", dataModifica=" + dataModifica +
+                '}';
+    }
 } //end class

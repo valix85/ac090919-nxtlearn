@@ -26,4 +26,15 @@ public class LivelloServiceImpl implements LivelloService {
     public List<Livello> getAll() {
         return livelloRepository.findAll();
     }
+
+    @Override
+    public Livello findByDescrizione(String nome) {
+        Livello l;
+        if (livelloRepository.findByDescrizione(nome) != null) {
+            l = livelloRepository.findByDescrizione(nome);
+        } else {
+            throw new LivelloNotFoundException();
+        }
+        return l;
+    }
 }//end class
