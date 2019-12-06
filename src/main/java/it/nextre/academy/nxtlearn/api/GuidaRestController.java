@@ -9,6 +9,7 @@ import it.nextre.academy.nxtlearn.model.Lezione;
 import it.nextre.academy.nxtlearn.service.GuidaScraperService;
 import it.nextre.academy.nxtlearn.service.GuidaService;
 import it.nextre.academy.nxtlearn.service.LezioneService;
+import it.nextre.academy.nxtlearn.service.LivelloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class GuidaRestController {
 
     @Autowired
     LezioneService lezioneService;
+
+    @Autowired
+    LivelloService livelloService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -102,7 +106,7 @@ public class GuidaRestController {
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping
-    public Guida addOne(@RequestBody @Valid Guida tmp, BindingResult validator) {
+    public GuidaDto addOne(@RequestBody @Valid GuidaDto tmp, BindingResult validator) {
         logger.debug("LOG: addOne()");
         System.out.println(tmp);
 
@@ -114,13 +118,18 @@ public class GuidaRestController {
                     .collect(Collectors.joining(", "));
             throw new BadRequestException(errs);
         }
+        Guida g = new Guida();
         if (tmp != null) {
-            guidaService.newGuida(tmp);
+            g.setId(tmp.getId());
+            g.setNome(tmp.getNome());
+            g.setDescrizione(tmp.getDescrizione());
+            g.setLivello(livelloService.findById((Integer) tmp.getLivello().get("id")));
+            g.setImagePath(tmp.getImage());
         }
-        return tmp;
+        g = guidaService.save(g);
+        // System.out.println(g);
+        return guidaService.toDto(g, false);
     }
-
-
 
     @Secured({"ROLE_ADMIN"})  // = jsr250 @RoleAllowed
     //@PreAuthorize("hasAuthority('CAN_DELETE')") //uso i ruoli
@@ -135,9 +144,6 @@ public class GuidaRestController {
             throw new GuidaNotFoundException();
         }
     }
-
-
-
 
     @GetMapping("/search/{nome}")
     public List<GuidaDto> getByName(@PathVariable("nome") String nome) {
@@ -201,4 +207,5 @@ public class GuidaRestController {
         }
         return new MyResponse(HttpStatus.OK,"OK").getPage();
     }
+
 }//end class

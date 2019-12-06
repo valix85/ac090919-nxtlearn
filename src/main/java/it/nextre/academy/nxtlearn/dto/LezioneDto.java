@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LezioneDto {
 
+    // TODO Aggiungere regole di validazione per i campi anche in base all'utilizzo che se ne fa nel metodo di add in LezioneRestController
+
     private String titolo;
     private String descrizione;
     private String autore;
@@ -27,6 +29,9 @@ public class LezioneDto {
     private List allegati = new ArrayList();
     private Integer id;
     private Date dataCreazione;
+    private Integer ordineLezione;
+    private Integer idCapitolo;
+
 
     public LezioneDto(Lezione lezione, AllegatoRepository allegatoRepository){
         this.id=lezione.getId();
@@ -40,5 +45,7 @@ public class LezioneDto {
                 .map(AllegatoDto::new)
                 .collect(Collectors.toList());
     }
+
+
 
 }

@@ -1,6 +1,7 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
+import it.nextre.academy.nxtlearn.exception.BadRequestException;
 import it.nextre.academy.nxtlearn.model.Guida;
 
 import it.nextre.academy.nxtlearn.repository.AllegatoRepository;
@@ -90,6 +91,14 @@ public class GuidaServiceImpl implements GuidaService {
     public List<Guida> findByNome(String nome) {
         List<Guida> guide=guidaRepository.findAllByNomeContaining(nome);
         return guide;
+    }
+
+    @Override
+    public Guida save(Guida guida) {
+        if (guida != null && guida.getId() == null) {
+            return guidaRepository.save(guida);
+        }
+        throw new BadRequestException("Guida non valida o già presente");
     }
 
 }//end class

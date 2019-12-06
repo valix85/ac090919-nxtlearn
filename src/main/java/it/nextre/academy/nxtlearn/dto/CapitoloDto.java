@@ -31,6 +31,8 @@ public class CapitoloDto {
     private String nome;
     private List lezioni = new ArrayList<>();
     private Integer id;
+    private Integer ordineCapitolo;
+    private Integer idGuida;
 
     public CapitoloDto(Capitolo capitolo, LezioneRepository lezioneRepository, AllegatoRepository allegatoRepository, boolean soloIntestazione){
         this.capitolo = capitolo;

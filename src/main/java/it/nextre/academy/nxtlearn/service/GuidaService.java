@@ -13,4 +13,6 @@ public interface GuidaService {
     List<Guida> getLastTen();
 
     List<Guida> findByNome(String nome);
+
+    Guida save(Guida guida);
 }
