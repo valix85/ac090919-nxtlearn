@@ -3,6 +3,7 @@ package it.nextre.academy.nxtlearn.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //registry.addViewController("/login").setViewName("login.html");
     }
 
+    @Value("${datafile.directory}")
+    String localPath;
 
     //la configurazione di defult di springboot con thymeleaf fa si di creare le rotte automatiche per tutti i file presenti all'interno di resources/public/
     @Override
@@ -60,8 +63,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .setCachePeriod(0) //scade in tempo zero, cache disattivata
         .resourceChain(false)
         ;
+        // System.out.println("PATH LOCALE: "+localPath);
+        if (localPath.startsWith("/")){
+            // unix / linux like
+            if (!localPath.endsWith("/")){
+                localPath+="/";
+            }
+        }else{
+            // other OS (windows)
+            if (!localPath.endsWith("\\")){
+                localPath+="\\";
+            }
+        }
+
         registry.addResourceHandler("/data/**")
-                .addResourceLocations("file:c:/nxtlearn/data/")
+                .addResourceLocations("file:"+localPath)
                 .setCachePeriod(0) //scade in tempo zero, cache disattivata
                 .resourceChain(false)
         ;
