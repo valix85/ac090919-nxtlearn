@@ -6,6 +6,7 @@ import it.nextre.academy.nxtlearn.model.PersonaGuida;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -13,4 +14,6 @@ public interface PersonaGuidaRepository extends JpaRepository<PersonaGuida, Inte
     boolean existsByGuidaAndPersona(Guida guida, Persona loggedPersona);
 
     List<PersonaGuida> findAllByPersona(Persona p);
+
+    List<PersonaGuida> findAllByPersonaOrderByDataInizioDesc(Persona p);
 }

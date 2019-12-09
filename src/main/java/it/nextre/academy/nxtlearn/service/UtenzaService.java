@@ -14,4 +14,6 @@ public interface UtenzaService {
     Utenza getUtenza(Integer id);
     UtenzaDto toDto(Utenza u);
     Utenza updateUtenza(Utenza u);
+
+    Utenza findById(Integer idUtenteLoggato);
 }

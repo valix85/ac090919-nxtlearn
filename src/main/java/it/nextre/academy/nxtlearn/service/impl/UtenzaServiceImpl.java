@@ -1,6 +1,7 @@
 package it.nextre.academy.nxtlearn.service.impl;
 
 import it.nextre.academy.nxtlearn.dto.UtenzaDto;
+import it.nextre.academy.nxtlearn.exception.NotFoundException;
 import it.nextre.academy.nxtlearn.model.Utenza;
 import it.nextre.academy.nxtlearn.repository.UtenzaRepository;
 import it.nextre.academy.nxtlearn.service.UtenzaService;
@@ -50,6 +51,11 @@ public class UtenzaServiceImpl implements UtenzaService {
             return utenzaRepository.save(u);
         }
         return null;
+    }
+
+    @Override
+    public Utenza findById(Integer idUtenteLoggato) {
+        return utenzaRepository.findById(idUtenteLoggato).orElseThrow(NotFoundException::new);
     }
 
 

@@ -1,6 +1,8 @@
 package it.nextre.academy.nxtlearn.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "utenza")
@@ -23,6 +26,7 @@ public class Utenza {
     @MapsId
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")   //same name as id @Column
+    @JsonManagedReference
     private Persona persona;
 
     @Column(unique = true)
@@ -45,5 +49,20 @@ public class Utenza {
                 ", email='" + email + '\'' +
                 // ", password='" + password + '\'' + //resta traccia nei log, mai stampare la password
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utenza utenza = (Utenza) o;
+        return getId().equals(utenza.getId()) &&
+                Objects.equals(getEmail(), utenza.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail());
     }
 }//end class

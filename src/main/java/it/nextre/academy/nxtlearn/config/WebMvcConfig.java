@@ -60,6 +60,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .setCachePeriod(0) //scade in tempo zero, cache disattivata
         .resourceChain(false)
         ;
+        registry.addResourceHandler("/data/**")
+                .addResourceLocations("file:c:/nxtlearn/data/")
+                .setCachePeriod(0) //scade in tempo zero, cache disattivata
+                .resourceChain(false)
+        ;
+
     }
 
 /*

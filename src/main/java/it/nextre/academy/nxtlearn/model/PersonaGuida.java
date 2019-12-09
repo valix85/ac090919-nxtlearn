@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -35,10 +36,14 @@ public class PersonaGuida {
     private Guida guida;
 
 
+
+    // Data di iscrizione alla guida
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_inizio",updatable = false)
     Date dataInizio;
 
+
+    // Data di completamento della guida
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_fine",insertable = false)
     Date dataFine;
@@ -53,4 +58,10 @@ public class PersonaGuida {
                 ", dataFine=" + dataFine +
                 '}';
     }
+
+    @PrePersist
+    void doCreate(){
+        this.dataInizio=new Timestamp(new Date().getTime());
+    }
+
 }//end class

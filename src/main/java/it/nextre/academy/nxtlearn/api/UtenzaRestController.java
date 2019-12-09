@@ -1,5 +1,6 @@
 package it.nextre.academy.nxtlearn.api;
 
+import it.nextre.academy.nxtlearn.config.CustomUserDetails;
 import it.nextre.academy.nxtlearn.dto.GuidaDto;
 import it.nextre.academy.nxtlearn.dto.UtenzaDto;
 import it.nextre.academy.nxtlearn.exception.BadRequestException;
@@ -13,10 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,7 +65,7 @@ public class UtenzaRestController {
         } else
             throw new PersonaNotFoundException();
     }
-    @Secured({"ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN", "ROLE_SIMPLEUSER"})
     @PostMapping("/updatePwd")
     public Boolean updatePwd(@RequestBody HashMap<String, Object> ut, BindingResult result) {
         logger.debug("POST method -> UtenzaRestController.updatePwd() update ut = " + ut);
@@ -122,6 +125,8 @@ public class UtenzaRestController {
         System.out.println(Arrays.toString(cleanRoles.toArray()));
         return cleanRoles;
     }
+
+    @Secured({"ROLE_ADMIN", "ROLE_SIMPLEUSER"})
     @PostMapping("/myGuides")
     public List<GuidaDto> getGuidesByUser(@RequestBody String email) {
         logger.debug("GET method -> UtenzaRestController.getGuideByUser() with email: " + email);
@@ -131,6 +136,31 @@ public class UtenzaRestController {
                 .forEach(guida -> usersGuide.add(guidaService.toDto(guida,false))); // todo controllare che funzioni
         return usersGuide;
     }
+
+
+
+
+    @Secured({"ROLE_ADMIN", "ROLE_SIMPLEUSER"})
+    @GetMapping("/myGuides")
+    public List<GuidaDto> getGuidesByUser(Principal loggedUser) {
+        logger.debug("GET method -> UtenzaRestController.getGuideByUser()");
+
+
+        CustomUserDetails cud =
+                (CustomUserDetails) (((UsernamePasswordAuthenticationToken) loggedUser).getPrincipal());
+        Integer idUtenteLoggato = cud.getId();
+
+        List<GuidaDto> usersGuide = new ArrayList<>();
+
+        Utenza u = utenzaService.findById(idUtenteLoggato);
+        personaGuidaService.getGuideByUser(u.getPersona()).stream()
+                .forEach(guida -> usersGuide.add(guidaService.toDto(guida,false)));
+        return usersGuide;
+    }
+
+
+
+
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/upGuideToUser")
     public Boolean updateGuidesToUser(@RequestBody HashMap<String, Object> guides) {

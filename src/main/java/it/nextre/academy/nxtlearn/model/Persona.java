@@ -71,6 +71,7 @@ public class Persona implements Cloneable{
 
     @OneToOne(mappedBy = "persona")
     //@PrimaryKeyJoinColumn
+    @JsonBackReference
     private Utenza utenza;
 
 
@@ -91,7 +92,7 @@ public class Persona implements Cloneable{
     public void setCognome(String cognome) {
         this.cognome = cognome.strip();
     }
-/*
+
     @Override
     public String toString() {
         return "Persona{" +
@@ -101,5 +102,5 @@ public class Persona implements Cloneable{
                 '}';
     }
 
- */
+
 }//end class

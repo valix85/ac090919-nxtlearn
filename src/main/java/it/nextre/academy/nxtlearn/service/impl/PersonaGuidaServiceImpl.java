@@ -84,12 +84,12 @@ public class PersonaGuidaServiceImpl implements PersonaGuidaService {
                 .forEach( rel -> guideDellUtente.add(rel.getGuida()));
         */
 
-        guideDellUtente = personaGuidaRepository.findAllByPersona(p)
+        guideDellUtente = personaGuidaRepository.findAllByPersonaOrderByDataInizioDesc(p)
                 .stream()
                 .map(pg -> pg.getGuida())
                 .collect(Collectors.toList());
 
-        guideDellUtente.stream().forEach(System.out::println);
+        // guideDellUtente.stream().forEach(System.out::println);
         return guideDellUtente;
     }
     @Override
